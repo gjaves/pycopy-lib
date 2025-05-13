@@ -21,7 +21,7 @@ jobs:
           git init
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
-          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/gjaves/micropython-uuid.git
+          git remote add origin https://x-access-token:${{ secrets.TARGET_REPO_PAT }}@github.com/gjaves/micropython-uuid.git
           git add .
           git commit -m "Auto-sync from pycopy-lib"
           git push -f origin master
