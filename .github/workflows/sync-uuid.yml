@@ -1,0 +1,27 @@
+name: Sync UUID to separate repo
+
+on:
+  push:
+    paths:
+      - 'uuid/**'
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Prepare synced repo
+        run: |
+          mkdir synced-repo
+          cp -r uuid/*.py synced-repo/
+          echo 'metadata(version="0.1.0")' > synced-repo/manifest.py
+          cd synced-repo
+          git init
+          git config user.name "GitHub Action"
+          git config user.email "action@github.com"
+          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/gjaves/micropython-uuid.git
+          git add .
+          git commit -m "Auto-sync from pycopy-lib"
+          git push -f origin master
